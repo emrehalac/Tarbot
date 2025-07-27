@@ -1,6 +1,0 @@
-@Tarbot_HostAddress = http://localhost:5191
-
-GET {{Tarbot_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
