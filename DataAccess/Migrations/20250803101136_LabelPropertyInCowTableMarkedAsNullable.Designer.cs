@@ -3,6 +3,7 @@ using System;
 using DataAccess.Concrete.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(TarbotDBContext))]
-    partial class TarbotDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250803101136_LabelPropertyInCowTableMarkedAsNullable")]
+    partial class LabelPropertyInCowTableMarkedAsNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +61,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Cow", (string)null);
+                    b.ToTable("Cow");
                 });
 
             modelBuilder.Entity("Entities.Entities.Reminder", b =>
@@ -100,7 +103,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("CowId");
 
-                    b.ToTable("Reminder", (string)null);
+                    b.ToTable("Reminder");
                 });
 
             modelBuilder.Entity("Entities.Entities.User", b =>
@@ -139,7 +142,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Entities.Entities.Cow", b =>

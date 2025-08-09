@@ -8,7 +8,8 @@ namespace DataAccess.Abstract
 {
     public interface IRepository<T> where T : class
     {
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByFilterAsync(string filter);
+        Task<T?> GetByIdAsync(int id);
         Task<List<T>> GetAllAsync();
         Task AddAsync(T entity);
         void Update(T entity);

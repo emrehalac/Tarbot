@@ -1,3 +1,8 @@
+using Business.Abstract;
+using Business.Concrete;
+using Business.Handlers;
+using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
 using Twilio.Clients;
@@ -5,20 +10,46 @@ using Twilio.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddDbContext<TarbotDBContext>(options =>
-//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDbContext<TarbotDBContext>(options =>
-    options.UseNpgsql("Host=db.rtnrgvyfiltjxxfxwflu.supabase.co;Port:5432,Database=postgres;Username=postgres;Password=EmreHalac35;SSL Mode=Require;Trust Server Certificate=true"));
-
-
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 
 // Add Twilio configuration
-builder.Services.AddHttpClient<ITwilioRestClient, TwilioRestClient>(httpClient =>
-{
-    httpClient.DefaultRequestHeaders.Add("Tarbot-Twilio-Client", "tarbot-chatbot-1.0");
-});
+var accountSid = builder.Configuration["Twilio:AccountSid"];
+var authToken = builder.Configuration["Twilio:AuthToken"];
+
+builder.Services.AddSingleton<ITwilioRestClient>(sp =>
+    new Twilio.Clients.TwilioRestClient(accountSid, authToken)
+);
+
+// Add custom services
+builder.Services.AddScoped<IUserService, UserManager>();
+builder.Services.AddScoped<IUserDal, EfUserDal>();
+
+builder.Services.AddScoped<ICowService, CowManager>();
+builder.Services.AddScoped<ICowDal, EfCowDal>();
+
+
+
+// Add message handlers and resolver
+builder.Services.AddScoped<MessageHandlerResolver>();
+builder.Services.AddScoped<IMessageHandler, WelcomeHandler>();
+builder.Services.AddScoped<IMessageHandler, KvkkApprovalHandler>();
+builder.Services.AddScoped<IMessageHandler, CowCountHandler>();
+builder.Services.AddScoped<IMessageHandler, CowLabelHandler>();
+builder.Services.AddScoped<IMessageHandler, CowStatusHandler>();
+builder.Services.AddScoped<IMessageHandler, CowGestationWeekHandler>();
+builder.Services.AddScoped<IMessageHandler, CowLoopCompletedHandler>();
+builder.Services.AddScoped<IMessageHandler, CompletedHandler>();
+
+
+
+
+
+
+
+// Yeni handler'lar buraya eklenecek
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

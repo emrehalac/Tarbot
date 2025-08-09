@@ -21,7 +21,7 @@ namespace DataAccess.Concrete.EntityFramework.Context
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Inek> Inek { get; set; }
+        public DbSet<Cow> Cow { get; set; }
         public DbSet<Reminder> Reminder { get; set; }
 
     }

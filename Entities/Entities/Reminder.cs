@@ -1,3 +1,4 @@
+
 using Entities.Enums;
 using System;
 
@@ -6,7 +7,7 @@ namespace Entities.Entities
     public class Reminder : BaseEntity
     {
         public int InekId { get; set; }
-        public virtual Inek Inek { get; set; }
+        public virtual Cow Cow { get; set; }
 
         public DateTime ReminderDate { get; set; }
         public ReminderType Type { get; set; }

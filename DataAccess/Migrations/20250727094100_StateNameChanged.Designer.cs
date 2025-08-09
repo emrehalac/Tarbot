@@ -3,6 +3,7 @@ using System;
 using DataAccess.Concrete.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(TarbotDBContext))]
-    partial class TarbotDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250727094100_StateNameChanged")]
+    partial class StateNameChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Entities.Entities.Cow", b =>
+            modelBuilder.Entity("Entities.Entities.Inek", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,10 +39,8 @@ namespace DataAccess.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Label")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("PregnancyStartDate")
@@ -58,7 +59,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Cow", (string)null);
+                    b.ToTable("Inek");
                 });
 
             modelBuilder.Entity("Entities.Entities.Reminder", b =>
@@ -68,9 +69,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CowId")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -98,9 +96,9 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CowId");
+                    b.HasIndex("InekId");
 
-                    b.ToTable("Reminder", (string)null);
+                    b.ToTable("Reminder");
                 });
 
             modelBuilder.Entity("Entities.Entities.User", b =>
@@ -120,12 +118,6 @@ namespace DataAccess.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("KvkkApproved")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("KvkkApprovedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
@@ -139,10 +131,10 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Cow", b =>
+            modelBuilder.Entity("Entities.Entities.Inek", b =>
                 {
                     b.HasOne("Entities.Entities.User", "User")
                         .WithMany()
@@ -155,16 +147,16 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entities.Entities.Reminder", b =>
                 {
-                    b.HasOne("Entities.Entities.Cow", "Cow")
+                    b.HasOne("Entities.Entities.Inek", "Inek")
                         .WithMany("Reminders")
-                        .HasForeignKey("CowId")
+                        .HasForeignKey("InekId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cow");
+                    b.Navigation("Inek");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Cow", b =>
+            modelBuilder.Entity("Entities.Entities.Inek", b =>
                 {
                     b.Navigation("Reminders");
                 });

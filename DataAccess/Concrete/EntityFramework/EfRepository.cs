@@ -19,7 +19,12 @@ namespace DataAccess.Concrete.EntityFramework
             _dbSet = context.Set<T>();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByFilterAsync(string filter)
+        {
+            return await _dbSet.FindAsync(filter);
+        }
+
+        public async Task<T?> GetByIdAsync(int id)
         {
             return await _dbSet.FindAsync(id);
         }

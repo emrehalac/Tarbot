@@ -2,8 +2,9 @@ namespace Entities.Enums
 {
     public enum PregnancyStatus
     {
-        NotPregnant,
-        Pregnant,
-        Calved
+        Unknown = 0,
+        NotPregnant = 1,
+        Pregnant = 2,
+        Calved = 3,
     }
 }
